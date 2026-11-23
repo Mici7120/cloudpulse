@@ -1,65 +1,77 @@
 ---
 type: constitution
-title: cloudpulse — Constitution
-description: Draft written by rsc onboard from the accepted plan; not ratified.
+title: CloudPulse — Constitution
+description: Non-negotiable principles every rsc-sdd phase obeys for CloudPulse.
 tags: [sdd, constitution]
-timestamp: 2026-11-23T06:52:08Z
+timestamp: 2026-11-23T07:01:00Z
 topic: sdd
-status: draft
-version: draft
+status: active
+version: v1.0.0
 ---
 
-# cloudpulse — Constitution
+# CloudPulse — Constitution
 
-> **borrador — complétalo con la fase `constitution` antes del primer SDD.**
-> Draft: complete it with the `constitution` phase before the first SDD feature. It holds only what
-> onboarding knew; it ratifies no principle. Ratifying it removes `status: draft` and starts at v1.0.0.
-
-## Known facts (from onboarding)
-
-- Goal: CloudPulse: monitor de uptime, deploys y alertas con FastAPI, PostgreSQL y Next.js
-- Project kind: software · software scope: complex
-- How code changes land: branches closed with a pull request; the default branch is closed to direct work (`--workflow branches`).
-- Stack evidence: No stack evidence was detected at install. To be decided in the `constitution` phase.
+> Version: v1.0.0 · Ratified: 2026-11-23 · Last amended: 2026-11-23
+> Goal: CloudPulse — uptime, deploys, and alerts monitor with FastAPI, PostgreSQL, and Next.js.
+> Stack mechanics live in `02-DOCS/wiki/stack/*`; this file ratifies the non-negotiable principles and links enforcement.
 
 ## 1. Stack canon
 
-No stack evidence was detected at install. To be decided in the `constitution` phase.
+1. Backend runtime and framework: Python 3.12+ with FastAPI, SQLAlchemy 2.x, and Alembic. Changing the backend framework or ORM is a MAJOR amendment.
+2. Database: PostgreSQL is the primary relational data store. Every schema change ships as a reversible Alembic migration.
+3. Frontend runtime and framework: Next.js (App Router) with TypeScript (`strict: true`) on Node.js 22+. Changing the frontend framework is a MAJOR amendment.
+4. Infrastructure and CI/CD: Local development and service orchestration run via Docker Compose; automated verification runs on GitHub Actions.
+5. Dependencies: Backend and frontend lockfiles are committed to Git; CI installs from lockfiles only.
 
 ## 2. Quality bar
 
-_Pending — to be completed in the `constitution` phase._
+6. Formatting and linting: Backend (Ruff format + lint) and frontend (ESLint + Prettier) must pass with zero errors and zero warnings before merge, enforced in GitHub Actions.
+7. Static typing: Backend type checking (mypy/pyright) and frontend type checking (`tsc --noEmit` with `strict: true`) must pass with zero errors before merge.
+8. Strict TDD and test gates: Backend tests use `pytest` and frontend tests use `Vitest`. Every behavioral change follows strict TDD (red -> green -> refactor), passes all test suites in CI, and meets >= 80% line coverage on changed code.
 
 ## 3. Conventions
 
-_Pending — to be completed in the `constitution` phase._
+9. Repository boundaries: Application code is separated into `backend/`, `frontend/`, and infra files (`docker-compose*.yml`, `.github/workflows/`); external connectors live in `01-TOOLS/<provider>/`; SDD and wiki docs live in `02-DOCS/wiki/`.
+10. API and error contracts: FastAPI endpoints define typed Pydantic request/response schemas and return consistent structured error payloads (`detail`, `code`, HTTP status) exposed in OpenAPI.
+11. Commit and PR format: Commits and Pull Request titles/descriptions are written in English using Conventional Commits (`<type>(<scope>): <subject>`), with zero emojis (`.rsc/.no-emoji`).
 
 ## 4. Branching & shipping
 
-Chosen at install: branches closed with a pull request; the default branch is closed to direct work. _Pending — to be completed in the `constitution` phase._
+12. Branch workflow: `main` is closed to direct commits; all changes land via dedicated branches and Pull Requests after CI checks pass.
+13. **Git authorship is the human's.** Commits and PRs are authored by the configured git user. No `Co-Authored-By` AI trailers and no "generated with" footers. Enforced at the `ship` phase.
 
-## 5. Security & privacy floor
+## 5. Security, connectors & risk floor
 
-_Pending — to be completed in the `constitution` phase._
+14. Secret hygiene: No secret, API key, or credential is ever committed. Secrets load from environment variables or gitignored `01-TOOLS/<provider>/.env` files. Enforced by `security-audit`.
+15. External connectors: Every external integration (e.g. Telegram alerts, GitHub deploys) is documented under `01-TOOLS/<provider>/` (`README.md`, `CREDENTIALS.md`, `.env.example`) and includes a runnable `test_connection` script.
+16. Tier 2 risk floor: Changes touching authentication, database migrations, secrets handling, webhooks, or CI/CD workflows are always classified as Tier 2 and require explicit human approval before merge.
 
-## 6. UX / accessibility floor (if there is a UI)
+## 6. UX / accessibility floor
 
-_Pending — to be completed in the `constitution` phase._
+17. Minimum UI accessibility: Next.js views use semantic HTML, keyboard navigation, and visible focus states (WCAG 2.1 AA baseline).
 
-## 7. Performance budgets (where they matter)
+## 7. Knowledge & decisions
 
-_Pending — to be completed in the `constitution` phase._
-
-## 8. Knowledge & decisions
-
-_Pending — to be completed in the `constitution` phase._
+18. **Decisions are logged.** Every significant architectural or process decision is appended to `02-DOCS/wiki/sdd/decisions.md` (or `02-DOCS/wiki/harness/decisions.md`) with date, options considered, and rationale.
 
 ## Definition of Done (the merge bar `verify` runs against)
 
-_Pending — to be completed in the `constitution` phase._
+A change ships only when ALL hold:
+
+- [ ] Stack canon respected; lockfiles updated if dependencies changed (principles 1-5).
+- [ ] Formatter and linter pass with zero warnings (principle 6).
+- [ ] Type checkers pass with zero errors (principle 7).
+- [ ] Strict TDD followed; `pytest` and/or `Vitest` pass with >= 80% coverage on changed code (principle 8).
+- [ ] Repository boundaries, API contracts, and English no-emoji Conventional Commits followed (principles 9-11).
+- [ ] Work is on a branch, merged via PR, with human git authorship only (principles 12-13).
+- [ ] No secrets committed; external connectors documented in `01-TOOLS/` with `test_connection`; Tier 2 paths flagged for human review (principles 14-16).
+- [ ] UI accessibility floor met where frontend views change (principle 17).
+- [ ] Significant decisions logged (principle 18).
 
 ## Amendment log (append-only)
 
 | Date | Version | Change | Why |
 |------|---------|--------|-----|
 | 2026-11-23 | draft | Draft generated by `rsc onboard`. | The SDD floor needs a constitution; ratification is the `constitution` phase's. |
+| 2026-11-23 | draft | Draft populated with CloudPulse stack canon, strict TDD bar, external connector rules, and Tier 2 risk floor. | Prepared for explicit user ratification before `sdd-init`. |
+| 2026-11-23 | v1.0.0 | Ratified initial CloudPulse constitution and REVIEW.md. | Explicitly ratified by project owner; activates SDD Stage 1 (BASE). |

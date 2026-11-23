@@ -10,19 +10,27 @@
     "clarify",
     "connect-tool",
     "constitution",
+    "db-migrations",
     "debug",
     "decision-challenge",
     "deprecation",
     "design",
+    "docker",
     "fable-operator",
+    "fastapi",
     "ftd",
+    "github-actions",
     "harness",
     "idea-refinement",
     "implement",
     "init",
+    "nextjs",
+    "observability",
     "orient",
     "parallel",
     "plan",
+    "postgresdb",
+    "python",
     "review",
     "sdd-init",
     "security-audit",
@@ -32,10 +40,14 @@
     "specify",
     "suggest",
     "tasks",
+    "testing-py",
+    "testing-web",
     "tidy",
+    "typescript",
     "unslop",
     "ux",
     "verify",
+    "webhooks",
     "worktrees"
   ],
   "agents": [
@@ -779,6 +791,11 @@
       "02-DOCS/wiki/harness/decisions.md": "6074ee3ebca18c70ace40b957255dcb08c0546d60f9af95e7522ad54a90d10ab",
       "02-DOCS/wiki/harness/installation-plan.md": "cc32e41164cd18f2d3a6485622303eb98ac533c4eb70240fdcc793b666f248bb",
       "02-DOCS/wiki/harness/user-profile.md": "eec902a97b713796c792020c7d56fb6b2aa6d53acdba97ef2e9aafb6f06b0cb8"
+    },
+    "maintenanceDrift": {
+      "action": "add fastapi,python,testing-py,postgresdb,db-migrations,nextjs,typescript,testing-web,docker,github-actions,observability,webhooks",
+      "recordedAt": "2026-11-23T07:01:21.167Z",
+      "requiresReassessment": true
     }
   }
 }

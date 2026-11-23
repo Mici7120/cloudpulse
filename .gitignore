@@ -35,3 +35,15 @@
 .antigravity/rsc/verify
 .antigravity/rsc/worktrees
 .antigravity/rsc/.rsc-state.json
+.antigravity/rsc/db-migrations
+.antigravity/rsc/docker
+.antigravity/rsc/fastapi
+.antigravity/rsc/github-actions
+.antigravity/rsc/nextjs
+.antigravity/rsc/observability
+.antigravity/rsc/postgresdb
+.antigravity/rsc/python
+.antigravity/rsc/testing-py
+.antigravity/rsc/testing-web
+.antigravity/rsc/typescript
+.antigravity/rsc/webhooks
