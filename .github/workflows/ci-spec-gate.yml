@@ -1,0 +1,48 @@
+name: CI Spec Gate
+
+on:
+  pull_request:
+    branches:
+      - main
+
+permissions:
+  contents: read
+
+jobs:
+  rsc-spec-gate:
+    name: RSC Risk & Spec Gate
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node.js 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Ensure PR head branch ref exists
+        env:
+          HEAD_REF: ${{ github.head_ref }}
+        run: |
+          if ! git rev-parse --verify --quiet "${HEAD_REF}^{commit}" >/dev/null; then
+            git branch -f "${HEAD_REF}" HEAD
+          fi
+
+      - name: Analyze change risk
+        run: |
+          npx --yes @ericrisco/rsc@4.1.8 risk --base origin/main
+
+      - name: Run RSC spec gate
+        env:
+          HEAD_REF: ${{ github.head_ref }}
+        run: |
+          if ! git cat-file -e origin/main:.rsc-risk.json 2>/dev/null; then
+            echo "Bootstrap PR detected: .rsc-risk.json is not yet on origin/main. Running spec gate in advisory mode."
+            npx --yes @ericrisco/rsc@4.1.8 spec gate --branch-check --repo . --branch "${HEAD_REF}" || true
+          else
+            npx --yes @ericrisco/rsc@4.1.8 spec gate --branch-check --repo . --branch "${HEAD_REF}"
+          fi
