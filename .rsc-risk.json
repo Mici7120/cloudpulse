@@ -1,0 +1,36 @@
+{
+  "version": 1,
+  "trunks": ["main"],
+  "rules": [
+    {
+      "class": "migrations",
+      "tier": 2,
+      "path": "^backend/alembic/",
+      "because": "Database schema migrations must be reversible and require human review."
+    },
+    {
+      "class": "auth",
+      "tier": 2,
+      "path": "^backend/.*auth",
+      "because": "Authentication and authorization changes require human review."
+    },
+    {
+      "class": "ci",
+      "tier": 2,
+      "path": "^\\.github/workflows/",
+      "because": "CI/CD workflow changes affect merge gates and deployment safety."
+    },
+    {
+      "class": "connectors",
+      "tier": 2,
+      "path": "^01-TOOLS/",
+      "because": "External connector documentation, credential templates, and connection checks require human review."
+    },
+    {
+      "class": "docs",
+      "tier": 0,
+      "path": "^02-DOCS/",
+      "because": "Project documentation and wiki updates only."
+    }
+  ]
+}
