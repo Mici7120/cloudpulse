@@ -1,6 +1,9 @@
 {
   "version": 1,
   "trunks": ["main"],
+  "asddGate": {
+    "require": "spec"
+  },
   "rules": [
     {
       "class": "migrations",
